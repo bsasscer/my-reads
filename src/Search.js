@@ -1,32 +1,34 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
+import Book from './Book'
 
 class Search extends Component {
 
     state = {
         query: '',
-        books: []
+        searchResults: []
     }
 
     // TODO: refactor so the correct read status shows for books that are already on shelves
 
-    search = (query) => {
-        if(query && query.length !== 0) {
-            BooksAPI.search(query)
-            .then((books) => {
-                this.setState(() => ({
-                    query,
-                    books
-                }))
+    handleSearch(e) {
+        if (e.target.value !== '') {
+            this.setState({ query: e.target.value })
+            BooksAPI.search(this.state.query).then(searchResults => {
+                this.setState({ searchResults: !searchResults || searchResults.error ? [] : searchResults })
             })
+        } else {
+            this.setState({ searchResults: [] })
         }
     }
 
-    render() {
-        const { query, books } = this.state
 
-        console.log("value", query)
+    render() {
+        const { book, shelvedBooks, shelf } = this.props;
+        const searchResults = this.state.searchResults;
+
+
 
         return (
             <div className="search-books">
@@ -38,40 +40,29 @@ class Search extends Component {
                     <div className="search-books-input-wrapper">
                         <input
                           type="text"
-                          onChange={(event) => this.search(event.target.value)}
+                          onChange={this.handleSearch.bind(this)}
                           placeholder="Search by title or author"
-                          value={query}
                         />
                     </div>
                 </div>
-                <div className="search-books-results">
-                    <ol className="books-grid">
-                        {books.map((book) => (
-                            <li key={book.id}>
-                                <div className="book">
-                                  <div className="book-top">
-                                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
-                                    <div className="book-shelf-changer">
-                                      <select value={book.shelf}>
-                                        <option value="none" disabled>Move to...</option>
-                                        <option value="currentlyReading">Currently Reading</option>
-                                        <option value="wantToRead">Want to Read</option>
-                                        <option value="read">Read</option>
-                                        <option value="none">None</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                  <div className="book-title">{book.title}</div>
-                                  <div className="book-authors">{book.authors}</div>
-                                </div>
-                            </li>
-                        ))}
-                    </ol>
-                </div>
+                {this.state.searchResults !== undefined && (
+                    <div className="search-books-results">
+                        <ol className="books-grid">
+                            {searchResults.map((book) => (
+                                <Book
+                                    book={book}
+                                    key={book.id}
+                                    shelvedBooks={shelvedBooks}
+                                    updateShelf={this.props.updateShelf}
+                                />
+                            ))}
+                        </ol>
+                    </div>
+                )}
             </div>
         )
     }
 }
 
 
-export default Search;
+export default Search
