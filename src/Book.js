@@ -14,10 +14,26 @@ class Book extends Component {
         BooksAPI.update(this.props.book, e.target.value);
     }
 
+    findShelvedBooks(searchResult) {
+        const defaultShelf = 'none';
+        if (searchResult.shelf) {
+            return searchResult.shelf;
+        } else {
+            const match = this.props.shelvedBooks.filter(
+                book => book.id === searchResult.id
+            )
+            if (!Array.isArray(match) || !match.length) {
+                return defaultShelf;
+            } else {
+                return match[0].shelf;
+            }
+        }
+    }
+
+
     render() {
 
-        const { book, shelf } = this.props;
-
+        const { book } = this.props;
 
 
         return (
@@ -27,7 +43,7 @@ class Book extends Component {
                       <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                       <div className="book-shelf-changer">
                           <form>
-                              <select value={book.shelf} onChange={this.handleChange}>
+                              <select defaultValue={this.findShelvedBooks(book)} onChange={this.handleChange}>
                                   <option value="none" disabled>Move to...</option>
                                   <option value="currentlyReading">Currently Reading</option>
                                   <option value="wantToRead">Want to Read</option>
