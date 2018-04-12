@@ -15,19 +15,33 @@ class Search extends Component {
     handleSearch(e) {
         if (e.target.value !== '') {
             this.setState({ query: e.target.value })
-            BooksAPI.search(this.state.query).then(searchResults => {
-                this.setState({ searchResults: !searchResults || searchResults.error ? [] : searchResults })
+            BooksAPI.search(this.state.query)
+            .then(searchResults => {
+                this.setState({ searchResults })
             })
         } else {
             this.setState({ searchResults: [] })
+        }
+        this.findShelvedBooks();
+    }
+
+    // getting a cannot read property 'book' of undefined
+    findShelvedBooks(searchResults, shelvedBooks) {
+        this.props.shelvedBooks.forEach(book => console.log('BOOK IDs - ' + book.id));
+        this.state.searchResults.forEach(result => console.log('RESULT IDs - ' + result.id));
+
+        for (let i = 0; i < this.state.searchResults.length; i++) {
+            for (let j = 0; j < this.props.shelvedBooks.length; j++) {
+                if (shelvedBooks.book.id === searchResults.result.id) {
+                    console.log('MATCH' + shelvedBooks.book.id);
+                }
+            }
         }
     }
 
 
     render() {
-        const { book, shelvedBooks, shelf } = this.props;
-        const searchResults = this.state.searchResults;
-
+        let searchResults = this.state.searchResults;
 
 
         return (
@@ -52,7 +66,7 @@ class Search extends Component {
                                 <Book
                                     book={book}
                                     key={book.id}
-                                    shelvedBooks={shelvedBooks}
+                                    shelf={book.shelf}
                                     updateShelf={this.props.updateShelf}
                                 />
                             ))}
