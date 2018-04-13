@@ -30,6 +30,13 @@ class Book extends Component {
         }
     }
 
+    getCoverImage(book) {
+        if (book.imageLinks && book.imageLinks.thumbnail !== undefined) {
+            return `url(${book.imageLinks.thumbnail})`;
+        } else {
+            return `url('/images/book-cover-blank.png')`;
+        }
+    }
 
     render() {
 
@@ -40,7 +47,7 @@ class Book extends Component {
             <li key={book.id}>
                 <div className="book">
                     <div className="book-top">
-                      <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
+                        <div className="book-cover" style={{ backgroundImage: `${this.getCoverImage(book)}` }}></div>
                       <div className="book-shelf-changer">
                           <form>
                               <select defaultValue={this.findShelvedBooks(book)} onChange={this.handleChange}>
