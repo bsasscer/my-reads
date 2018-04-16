@@ -5,8 +5,9 @@ This is a completed submission for Udacity's ReactND. Target functionality is sp
 
 ## Getting Started
 
-To get started right away:
+To clone project and fetch dependencies:
 
+* `git clone https://github.com/bsasscer/my-reads.git`
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
 
