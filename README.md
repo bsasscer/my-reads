@@ -17,6 +17,7 @@ The backend API uses a fixed set of cached search results and is limited to a pa
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). You can find more information on how to perform common tasks [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
-## Contributing
+## Special Thanks To:
 
-This repository originated from starter code for _all_ Udacity students.
+- [Udacity](https://github.com/udacity/reactnd-project-myreads-starter) for providing the starter code.
+- [Charlie Kriewall](https://github.com/ckriewall/reactnd-myreads) for sharing some of his solutions with the Udacity React slack community.
