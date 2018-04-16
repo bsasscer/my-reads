@@ -48,17 +48,17 @@ class Book extends Component {
                 <div className="book">
                     <div className="book-top">
                         <div className="book-cover" style={{ backgroundImage: `${this.getCoverImage(book)}` }}></div>
-                      <div className="book-shelf-changer">
-                          <form>
-                              <select defaultValue={this.findShelvedBooks(book)} onChange={this.handleChange}>
-                                  <option value="none" disabled>Move to...</option>
-                                  <option value="currentlyReading">Currently Reading</option>
-                                  <option value="wantToRead">Want to Read</option>
-                                  <option value="read">Read</option>
-                                  <option value="none">None</option>
-                              </select>
-                          </form>
-                      </div>
+                        <div className="book-shelf-changer">
+                            <form>
+                                <select defaultValue={this.findShelvedBooks(book)} onChange={this.handleChange}>
+                                    <option value="none" disabled>Move to...</option>
+                                    <option value="currentlyReading">Currently Reading</option>
+                                    <option value="wantToRead">Want to Read</option>
+                                    <option value="read">Read</option>
+                                    <option value="none">None</option>
+                                </select>
+                            </form>
+                        </div>
                     </div>
                     <div className="book-title">{book.title}</div>
                     <div className="book-authors">{book.authors}</div>
